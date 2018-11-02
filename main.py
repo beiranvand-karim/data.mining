@@ -94,4 +94,5 @@ movie_ratings = pd.DataFrame({'movie': names,
                               'metascore': metascores,
                               'votes': votes})
 print(movie_ratings.info())
-movie_ratings.head(10)
+print(movie_ratings.head(10))
+movie_ratings.to_csv('movie_ratings.csv')
