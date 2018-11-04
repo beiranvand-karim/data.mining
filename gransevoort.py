@@ -3,11 +3,10 @@ from time import sleep
 from random import randint
 from time import time
 from IPython.core.display import clear_output
+from session import session
+from review import Review
 
 # https://www.tripadvisor.com/Hotel_Review-g60763-d287626-Reviews-or5-Gansevoort_Meatpacking_NYC-New_York_City_New_York.html
-
-with open('result.csv', 'w') as f:
-    f.write('date, review \n')
 
 start_time = time()
 requests = 0
@@ -30,9 +29,10 @@ for i in range(0, 10):
 
     reviews = driver.find_elements_by_css_selector('div.ui_column.is-9 > div.prw_rup > div.entry > p.partial_entry')
     dates = driver.find_elements_by_class_name('ratingDate')
-    for i in range(0, len(reviews)):
-        with open('result.csv', 'a') as f:
-            f.write(dates[i].get_attribute('title') + ', ' + reviews[i].text + '\n')
+    for j in range(0, len(reviews)):
+        rev = Review(id=str(i * 10 + j), date=dates[j].get_attribute('title'), review=reviews[j].text)
+        session.add(rev)
+        session.commit()
 
     sleep(randint(8, 15))
 
@@ -42,5 +42,5 @@ for i in range(0, 10):
     clear_output(wait=True)
 
 driver.close()
-
+session.close()
 

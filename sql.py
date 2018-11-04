@@ -35,3 +35,4 @@ session.commit()
 
 session.delete(doctor_strange)
 session.commit()
+session.close()
