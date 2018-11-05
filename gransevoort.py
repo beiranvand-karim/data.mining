@@ -12,7 +12,7 @@ requests = 0
 
 driver = webdriver.Chrome()
 
-for i in range(218, 259):
+for i in range(218, 261):
     if i == 0:
         phrase = ''
     else:
@@ -29,7 +29,7 @@ for i in range(218, 259):
     reviews = driver.find_elements_by_css_selector('div.ui_column.is-9 > div.prw_rup > div.entry > p.partial_entry')
     dates = driver.find_elements_by_class_name('ratingDate')
     for j in range(0, len(reviews)):
-        rev = GansevoortReview(id=str(i * 10 + j), date=dates[j].get_attribute('title'), review=reviews[j].text)
+        rev = GansevoortReview(id=i * 10 + j, date=dates[j].get_attribute('title'), review=reviews[j].text)
         session.add(rev)
         session.commit()
 
