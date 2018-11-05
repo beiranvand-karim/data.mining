@@ -8,9 +8,8 @@ db = create_engine(db_string)
 base = declarative_base()
 
 
-class Review(base):
+class GansevoortReview(base):
     __tablename__ = 'gansevoort_reviews'
-
     id = Column(String, primary_key=True)
     date = Column(String)
     review = Column(String)
