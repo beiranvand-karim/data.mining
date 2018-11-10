@@ -3,7 +3,7 @@ from time import sleep
 from random import randint
 from time import time
 from session import session
-from gansevoortreview import GansevoortReview
+from models.gansevoortreview import GansevoortReview
 
 # https://www.tripadvisor.com/Hotel_Review-g60763-d287626-Reviews-or5-Gansevoort_Meatpacking_NYC-New_York_City_New_York.html
 

@@ -1,7 +1,7 @@
-from mongo_gansevoort_reviews import MongoGansevoortReview
+from models.mongo_gansevoort_reviews import MongoGansevoortReview
 from process import process_all_reviews
 from session import session
-from gansevoortreview import GansevoortReview
+from models.gansevoortreview import GansevoortReview
 import mongoengine as me
 
 

@@ -1,6 +1,6 @@
 import nltk
 from nltk.corpus import stopwords
-from mongo_gansevoort_reviews import MongoGansevoortReview
+from models.mongo_gansevoort_reviews import MongoGansevoortReview
 import mongoengine as me
 
 
