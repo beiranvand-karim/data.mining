@@ -3,34 +3,38 @@ from nltk.corpus import stopwords
 from mongo_gansevoort_reviews import MongoGansevoortReview
 import mongoengine as me
 
-stop_words = stopwords.words("english")
-
 
 def process_sentence(description):
-    words = nltk.word_tokenize(description)
-    tagged = nltk.pos_tag(words)
-    tag_filters = ['NN', 'JJ']
-
-    filter_sentence = []
-
-    for t in tagged:
-        if t[0] not in stop_words and t[1] in tag_filters:
-            filter_sentence.append(t[0])
-
-    concatenated_sentence = ' '.join(filter_sentence)
+    tagged_sentence = tagger(description)
+    filtered_sentence = remove_stop_words(tagged_sentence)
+    filtered_sentence = filter_pos_tags(filtered_sentence)
+    filtered_sentence = list(map(lambda item: item[0], filtered_sentence))
+    concatenated_sentence = ' '.join(filtered_sentence)
     return concatenated_sentence
 
 
 def tagger(sentence):
-    return sentence
+    words = nltk.word_tokenize(sentence)
+    tagged = nltk.pos_tag(words)
+    return tagged
 
 
-def remove_stop_words(sentence):
-    return sentence
+def remove_stop_words(tagged_sentence):
+    stop_words = stopwords.words("english")
+    filtered_tagged_sentence = []
+    for item in tagged_sentence:
+        if item[0] not in stop_words:
+            filtered_tagged_sentence.append(item)
+    return filtered_tagged_sentence
 
 
-def filter_pos_tags(sentence):
-    return sentence
+def filter_pos_tags(tagged_sentence):
+    tag_filters = ['NN', 'JJ']
+    filtered_tagged_sentence = []
+    for item in tagged_sentence:
+        if item[1] in tag_filters:
+            filtered_tagged_sentence.append(item)
+    return filtered_tagged_sentence
 
 
 def review_description_sentence_list(sentences):
@@ -40,7 +44,7 @@ def review_description_sentence_list(sentences):
     return sent_list
 
 
-def process_al_reviews(reviews):
+def process_all_reviews(reviews):
     me.connect("data-mining")
     for review in reviews:
         custom_sent_tokenizer = nltk.PunktSentenceTokenizer(review.review)
