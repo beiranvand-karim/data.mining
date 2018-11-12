@@ -12,7 +12,12 @@ class GansevoortReview(base):
     __tablename__ = 'gansevoort_reviews'
     id = Column(Integer, primary_key=True)
     date = Column(String)
-    review = Column(String)
+    description = Column(String)
+    name = Column(String)
+    likes = Column(Integer)
+    contributions = Column(Integer)
+    address = Column(String)
+    rating = Column(Integer)
 
 
 base.metadata.create_all(db)

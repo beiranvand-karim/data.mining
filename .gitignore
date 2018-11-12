@@ -1,6 +1,4 @@
 .idea
 env
 geckodriver.log
-result.csv
-hotel_reviews1-10.csv
 __pycache__
