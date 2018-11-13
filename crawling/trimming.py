@@ -11,6 +11,12 @@ def trim_ratings(ratings):
     return new_ratings
 
 
+def trim_rating(rating):
+    rate = re.findall(r'\d+', rating.get_attribute('class'))[0]
+    pure_rate = int(int(rate) / 10)
+    return pure_rate
+
+
 def make_url(index):
     if index == 0:
         phrase = ''
