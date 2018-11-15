@@ -5,7 +5,7 @@ def trim_ratings(ratings):
     new_ratings = []
     for r in ratings:
         rate = re.findall(r'\d+', r.get_attribute('class'))[0]
-        pure_rate = int(int(rate)/10)
+        pure_rate = float(rate)/10
         new_ratings.append(pure_rate)
 
     return new_ratings
@@ -13,7 +13,7 @@ def trim_ratings(ratings):
 
 def trim_rating(rating):
     rate = re.findall(r'\d+', rating.get_attribute('class'))[0]
-    pure_rate = int(int(rate) / 10)
+    pure_rate = float(rate) / 10
     return pure_rate
 
 
