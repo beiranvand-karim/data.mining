@@ -1,7 +1,11 @@
+from random import randint
 from time import sleep
 from crawling.trimming import trim_rating
 from driver import driver
-# from models.user_reviews import UserReviews, HotelsRatings
+from selenium.common.exceptions import NoSuchElementException
+from models.user_reviews import UserReviews, HotelsRatings
+import mongoengine as me
+
 
 try:
     url = 'https://www.tripadvisor.com/Profile/' \
@@ -12,16 +16,27 @@ try:
          'var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );' \
          'window.scrollTo(0, height);'
 
+    at_bottom = 'function xxx() {if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) ' \
+                '{return true;} return false;} return xxx()'
+
+    me.connect("user-all-reviews")
+    UserReviews.drop_collection()
+
     driver.get(url)
     sleep(2)
-    driver.execute_script(js)
-    # see_more = driver.find_element_by_css_selector('.ui_icon single-chevron-down.ShowMore__icon--25Enx')
-    # print(see_more.text)
 
-    # if see_more:
-    #     see_more.click()
+    see_more = driver.find_element_by_css_selector('.ui_icon.single-chevron-down.ShowMore__icon--25Enx')
+    # if see_more.text:
+    see_more.click()
 
-    sleep(4)
+    sleep(5)
+
+    while True:
+        condition = driver.execute_script(at_bottom)
+        if condition:
+            break
+        driver.execute_script(js)
+        sleep(randint(5, 6))
 
     reviews = driver.find_elements_by_css_selector('.CardSection__card_section--2FTVG.ui_card.section')
     name = driver.find_element_by_css_selector('.MemberName__display_name--2IbHU.MemberBlock__display_name--30eg_').text
@@ -34,20 +49,36 @@ try:
     _hotels_ratings_list = []
 
     for review in reviews:
-        user_given_rating = trim_rating(review.find_element_by_css_selector('.ui_bubble_rating'))
+
+        try:
+            ele = review.find_element_by_css_selector('.ui_bubble_rating')
+            user_given_rating = trim_rating(ele)
+
+        except NoSuchElementException:
+            user_given_rating = -1
+
         hotel_name = review.find_element_by_css_selector('.POIObject__poi_name--2ulYO.ui_link').text
 
-        over_all_rating = review.find_element_by_css_selector('.ui_poi_review_rating > .ui_bubble_rating')
-        over_all_rating = trim_rating(over_all_rating)
+        try:
+            ele = review.find_element_by_css_selector('.ui_poi_review_rating > .ui_bubble_rating')
+            over_all_rating = trim_rating(ele)
 
-        print(over_all_rating)
-        # _hotels_ratings = HotelsRatings(user_given_rating=user_given_rating, over_all_rating=rating, name=hotel_name)
-        # _hotels_ratings_list.append(_hotels_ratings)
+        except NoSuchElementException:
+            over_all_rating = -1
 
-    # _user_reviews = UserReviews(name=name, username=username, hotels_ratings=_hotels_ratings_list)
-    # _user_reviews.save()
+        _hotels_ratings = HotelsRatings(
+            user_given_rating=user_given_rating,
+            over_all_rating=over_all_rating,
+            name=hotel_name
+        )
+        _hotels_ratings_list.append(_hotels_ratings)
+
+    _user_reviews = UserReviews(name=name, username=username, hotels_ratings=_hotels_ratings_list)
+    _user_reviews.save()
 
     driver.close()
+
+
 except Exception as e:
     print(e)
     if driver.title:

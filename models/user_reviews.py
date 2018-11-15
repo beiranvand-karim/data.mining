@@ -1,13 +1,13 @@
-import mongoengine as me
+from mongoengine import *
 
 
-class HotelsRatings(me.Document):
-    user_given_rating = me.StringField(required=True)
-    name = me.StringField(required=True)
-    over_all_rating = me.IntField(required=True)
+class HotelsRatings(Document):
+    user_given_rating = FloatField(required=True)
+    name = StringField(required=True)
+    over_all_rating = FloatField(required=True)
 
 
-class UserReviews(me.Document):
-    username = me.StringField(required=True)
-    name = me.StringField(required=True)
-    hotels_ratings = me.EmbeddedDocumentListField(HotelsRatings)
+class UserReviews(Document):
+    username = StringField(required=True)
+    name = StringField(required=True)
+    hotels_ratings = ListField(EmbeddedDocumentField(HotelsRatings))

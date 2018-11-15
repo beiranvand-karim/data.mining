@@ -4,6 +4,7 @@ import mongoengine as me
 from crawling.trimming import make_url, trim_rating
 from driver import driver
 from models.author_ratings import AuthorRatings
+from selenium import webdriver
 
 # try:
 me.connect("author-ratings")
@@ -12,7 +13,7 @@ AuthorRatings.drop_collection()
 start_time = time()
 requests = 0
 
-for i in range(218, 219):
+for i in range(219, 230):
     url = make_url(i)
     driver.get(url)
 
@@ -26,14 +27,18 @@ for i in range(218, 219):
         pic = review.find_element_by_css_selector(".memberOverlayLink.clickable")
         pic.click()
         sleep(5)
-        back_drop = driver.find_element_by_css_selector('.memberOverlayRedesign > a').click()
-        sleep(randint(8))
-        driver.back()
+        back_drop = driver.find_element_by_css_selector('.ui_backdrop').click()
+        # sleep(8)
+        # driver.back()
+
+        action = webdriver.common.action_chains.ActionChains(driver)
+        action.move_to_element(back_drop)
+        action.click()
 
 # except Exception as e:
 #     print("______________________________________")
 #     print(e)
 #     print("_________________________________________")
 #     status = driver.title
-#     if driver.title:
-#     driver.close()
+#     # if driver.title:
+#         # driver.close()
