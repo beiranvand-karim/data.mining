@@ -1,15 +1,16 @@
 from random import randint
 from time import time, sleep
 import mongoengine as me
-from crawling.trimming import make_url, trim_ratings
-from driver import driver
 from models.author_ratings import AuthorRatings
+from driver import driver
+from crawling.trimming import make_url, trim_ratings
 
 me.connect("author-ratings")
 AuthorRatings.drop_collection()
 
 start_time = time()
 requests = 0
+
 
 for i in range(218, 261):
     url = make_url(i)
