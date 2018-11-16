@@ -70,7 +70,7 @@ try:
             user_given_rating=user_given_rating,
             over_all_rating=over_all_rating,
             name=hotel_name
-        )
+        ).save()
         _hotels_ratings_list.append(_hotels_ratings)
 
     _user_reviews = UserReviews(name=name, username=username, hotels_ratings=_hotels_ratings_list)

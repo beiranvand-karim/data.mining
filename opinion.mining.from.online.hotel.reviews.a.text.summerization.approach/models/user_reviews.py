@@ -10,4 +10,4 @@ class HotelsRatings(Document):
 class UserReviews(Document):
     username = StringField(required=True)
     name = StringField(required=True)
-    hotels_ratings = ListField(EmbeddedDocumentField(HotelsRatings))
+    hotels_ratings = ListField(ReferenceField(HotelsRatings))
