@@ -21,7 +21,7 @@ def get_user_all_reviews_and_ratings(url):
         sleep(2)
 
         try:
-            see_more = driver.find_element_by_css_selector('.ui_icon.single-chevron-down.ShowMore__icon--25Enx')
+            see_more = driver.find_element_by_css_selector('.ui_button.primary.large')
             # if see_more.text:
             see_more.click()
 
@@ -37,9 +37,9 @@ def get_user_all_reviews_and_ratings(url):
         except NoSuchElementException:
             print("see more not found. skipping over it")
 
-        reviews = driver.find_elements_by_css_selector('.CardSection__card_section--2FTVG.ui_card.section')
-        name = driver.find_element_by_css_selector('.MemberName__display_name--2IbHU.MemberBlock__display_name--30eg_').text
-        username = driver.find_element_by_css_selector('.MemberName__user_name--1WqHX').text
+        reviews = driver.find_elements_by_css_selector('.social-sections-CardSection__card_section--20Wxe.ui_card.section')
+        name = driver.find_element_by_css_selector('.social-common-MemberName__display_name--1HCDW.social-common-MemberBlock__display_name--2a02z').text
+        username = driver.find_element_by_css_selector('.social-common-MemberName__user_name--2ljTA').text
         print(name)
         print(username)
 
@@ -56,7 +56,7 @@ def get_user_all_reviews_and_ratings(url):
             except NoSuchElementException:
                 user_given_rating = -1
 
-            hotel_name = review.find_element_by_css_selector('.POIObject__poi_name--2ulYO.ui_link').text
+            hotel_name = review.find_element_by_css_selector('.social-common-POIObject__poi_name--39wh4.ui_link').text
 
             try:
                 ele = review.find_element_by_css_selector('.ui_poi_review_rating > .ui_bubble_rating')
