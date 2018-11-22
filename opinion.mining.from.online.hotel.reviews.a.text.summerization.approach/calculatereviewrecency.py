@@ -2,7 +2,7 @@ from math import exp
 from mongoengine import connect
 from models.mongo_gansevoort_reviews import MongoGansevoortReview
 from datetime import datetime
-from models.reviewhelpfulness import ReviewRecency
+from models.reviewrecency import ReviewRecency
 
 
 def parsedate(date):

@@ -12,9 +12,12 @@ def trim_ratings(ratings):
 
 
 def trim_rating(rating):
-    rate = re.findall(r'\d+', rating.get_attribute('class'))[0]
-    pure_rate = float(rate) / 10
-    return pure_rate
+    if rating is not None:
+        rate = re.findall(r'\d+', rating.get_attribute('class'))[0]
+        pure_rate = float(rate) / 10
+        return pure_rate
+    else:
+        return None
 
 
 def make_url(index):
