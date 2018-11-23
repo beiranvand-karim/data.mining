@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from constants import db_string
+from constants.db_string import db_string
 
 
 db = create_engine(db_string)

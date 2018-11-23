@@ -4,12 +4,22 @@ from models.mongo_gansevoort_reviews import MongoGansevoortReview
 import mongoengine as me
 
 
+def removetags(sentence):
+    filtered_sentence = list(map(lambda item: item[0], sentence))
+    return filtered_sentence
+
+
+def buildsentence(wordlist):
+    concatenated_sentence = ' '.join(wordlist)
+    return concatenated_sentence
+
+
 def process_sentence(description):
     tagged_sentence = tagger(description)
     filtered_sentence = remove_stop_words(tagged_sentence)
     filtered_sentence = filter_pos_tags(filtered_sentence)
-    filtered_sentence = list(map(lambda item: item[0], filtered_sentence))
-    concatenated_sentence = ' '.join(filtered_sentence)
+    filtered_sentence = removetags(filtered_sentence)
+    concatenated_sentence = buildsentence(filtered_sentence)
     return concatenated_sentence
 
 
