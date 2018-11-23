@@ -1,0 +1,28 @@
+
+indicatorphrases = [
+    'however',
+    'although',
+    'invention',
+    'conclusions',
+    'discussions',
+    'nevertheless',
+    'summary',
+    'even though',
+    'even if',
+    'objective',
+    'though',
+    'results',
+    'intent',
+    'purpose',
+    'finally',
+    'goal',
+    'as a result',
+    'intention',
+    'in summary',
+    'Not with standing',
+    'summaries',
+    'conclusion',
+    'discussion',
+    'all in all',
+    'result'
+]
