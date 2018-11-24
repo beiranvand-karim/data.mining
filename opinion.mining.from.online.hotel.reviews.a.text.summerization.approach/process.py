@@ -1,7 +1,7 @@
 import nltk
-from nltk.corpus import stopwords
 from models.mongo_gansevoort_reviews import MongoGansevoortReview
 import mongoengine as me
+from constants.mysqlstopwords import stopwords
 
 
 def removetags(sentence):
@@ -30,10 +30,9 @@ def tagger(sentence):
 
 
 def remove_stop_words(tagged_sentence):
-    stop_words = stopwords.words("english")
     filtered_tagged_sentence = []
     for item in tagged_sentence:
-        if item[0] not in stop_words:
+        if item[0] not in stopwords:
             filtered_tagged_sentence.append(item)
     return filtered_tagged_sentence
 
