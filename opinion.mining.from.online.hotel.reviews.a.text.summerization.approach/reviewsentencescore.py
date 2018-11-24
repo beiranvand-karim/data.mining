@@ -36,39 +36,49 @@ def sentencenumber(sentence):
     return len(sentence.split())
 
 
+def nw(length, maximum):
+    return length / maximum
+
+
+def reviewsentencescore(_loc, _nw, _ip):
+    return w1 * _loc + w2 * _nw + w3 * _ip
+
 # todo for now I am using the length of processed sentence check that later
 
 
 dbname = "data-mining"
 connect(dbname)
-Sentence.drop_collection()
+ReviewSentences.drop_collection()
 
-for review in GansevoortReview.objects[:1]:
+for review in GansevoortReview.objects:
     custom_sent_tokenizer = nltk.PunktSentenceTokenizer(review.description)
     sentences = custom_sent_tokenizer.tokenize(review.description)
     sent_list = review_description_sentence_list(sentences)
     maximal = maximalsentencenumber(sent_list)
-    print(maximal)
 
     sentencelist = []
-    for sen in sent_list:
+    for index, sen in enumerate(sent_list):
         sen_length = sentencenumber(sen)
-        score = sen_length / maximal
+
+        loc_ = location(index)
+        nw_ = nw(sen_length, maximal)
+        ip_ = phraseindicator(sen)
+
+        css = reviewsentencescore(loc_, nw_, ip_)
+
         sentence = Sentence(
             value=sen,
-            score=score
+            score=css
         )
-        sentence.save()
-        sentencelist.append(sen)
+        sentencelist.append(sentence)
 
     reviewsentences = ReviewSentences(
         reviewId=review.id,
-        sentences=sentencelist
+        sentences=sentencelist,
+        maximal=maximal
     )
     reviewsentences.save()
 
     sentencelist.clear()
 
-for rev in ReviewSentences.objects(sentences__in=["5bf7f92d66fc14522adeb351", "5bf7f92d66fc14522adeb352"]):
-    print(len(rev))
 connection.disconnect(dbname)
