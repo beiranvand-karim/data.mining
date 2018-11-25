@@ -1,6 +1,6 @@
 from math import exp
 from mongoengine import connect
-from models.mongo_gansevoort_reviews import MongoGansevoortReview
+from models.gansevoortreview import GansevoortReview
 from datetime import datetime
 from models.reviewrecency import ReviewRecency
 
@@ -21,7 +21,7 @@ connect("data-mining")
 ReviewRecency.drop_collection()
 
 
-for review in MongoGansevoortReview.objects:
+for review in GansevoortReview.objects:
     reviewrecency = ReviewRecency(
         reviewId=review.id,
         value=calculatereviewrecency(parsedate(review.date))
