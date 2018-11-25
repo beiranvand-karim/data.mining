@@ -1,14 +1,13 @@
-from mongoengine import Document, StringField, EmbeddedDocument, FloatField, ObjectIdField, \
-    ListField, EmbeddedDocumentField
+from mongoengine import Document, StringField, FloatField, ObjectIdField, \
+    ListField, ReferenceField
 
 
-class Sentence(EmbeddedDocument):
+class Sentence(Document):
     value = StringField(required=True)
     score = FloatField(required=True)
 
 
 class ReviewSentences(Document):
     reviewId = ObjectIdField(required=True)
-    # todo convert this to reference field
-    sentences = ListField(EmbeddedDocumentField(Sentence))
+    sentences = ListField(ReferenceField(Sentence))
     maximal = FloatField()

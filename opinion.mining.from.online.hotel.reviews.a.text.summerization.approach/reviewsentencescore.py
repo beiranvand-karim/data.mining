@@ -49,6 +49,7 @@ def reviewsentencescore(_loc, _nw, _ip):
 dbname = "data-mining"
 connect(dbname)
 ReviewSentences.drop_collection()
+Sentence.drop_collection()
 
 for review in GansevoortReview.objects:
     custom_sent_tokenizer = nltk.PunktSentenceTokenizer(review.description)
@@ -70,6 +71,7 @@ for review in GansevoortReview.objects:
             value=sen,
             score=css
         )
+        sentence.save()
         sentencelist.append(sentence)
 
     reviewsentences = ReviewSentences(
