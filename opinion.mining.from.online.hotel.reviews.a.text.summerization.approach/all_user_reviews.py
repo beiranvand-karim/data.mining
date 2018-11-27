@@ -6,7 +6,7 @@ from selenium.common.exceptions import NoSuchElementException
 from models.user_reviews import UserReviews, HotelsRatings
 
 
-def get_user_all_reviews_and_ratings(url):
+def get_user_all_reviews_and_ratings(url, profileid):
 
     try:
         js = 'var body = document.body,' \
@@ -72,7 +72,7 @@ def get_user_all_reviews_and_ratings(url):
             ).save()
             _hotels_ratings_list.append(_hotels_ratings)
 
-        _user_reviews = UserReviews(name=name, username=username, hotels_ratings=_hotels_ratings_list)
+        _user_reviews = UserReviews(name=name, username=username, userprofileid=profileid, hotels_ratings=_hotels_ratings_list)
         _user_reviews.save()
 
         # driver.close()

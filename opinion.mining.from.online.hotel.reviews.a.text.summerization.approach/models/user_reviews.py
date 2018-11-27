@@ -10,4 +10,5 @@ class HotelsRatings(Document):
 class UserReviews(Document):
     username = StringField(required=True)
     name = StringField(required=True)
+    userprofileid = ObjectIdField(required=True)
     hotels_ratings = ListField(ReferenceField(HotelsRatings))

@@ -1,5 +1,5 @@
 from math import exp
-from mongoengine import connect
+from mongoengine import connect, connection
 from models.gansevoortreview import GansevoortReview
 from datetime import datetime
 from models.reviewrecency import ReviewRecency
@@ -17,7 +17,8 @@ def calculatereviewrecency(date):
     return exp(-t / dm)
 
 
-connect("data-mining")
+dbname = "data-mining"
+connect(dbname)
 ReviewRecency.drop_collection()
 
 
@@ -30,3 +31,4 @@ for review in GansevoortReview.objects:
 
 
 print(ReviewRecency.objects.count())
+connection.disconnect(dbname)
