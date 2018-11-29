@@ -9,6 +9,7 @@ def calculatereviewhelpfulness(value):
 
 dbname = "data-mining"
 connect(dbname)
+ReviewHelpfulness.drop_collection()
 
 for review in GansevoortReview.objects:
     reviewhelpfulness = ReviewHelpfulness(
